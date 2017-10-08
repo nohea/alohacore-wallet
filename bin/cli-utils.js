@@ -92,8 +92,8 @@ Utils.loadEncrypted = function(client, opts, walletData, filename, cb) {
 Utils.getClient = function(args, opts, cb) {
   opts = opts || {};
 
-  var filename = args.file || process.env['WALLET_FILE'] || process.env['HOME'] + '/.wallet.dat';
-  var host = args.host || process.env['BWS_HOST'] || 'https://bws.bitpay.com/';
+  var filename = args.file || process.env['WALLET_FILE'] || process.env['HOME'] + '/.alohacore-wallet.dat';
+  var host = args.host || process.env['BWS_HOST'] || 'https://bws.alohacoin.nationofhawaii.info/';
 
   var storage = new FileStorage({
     filename: filename,
@@ -180,7 +180,7 @@ Utils.saveClient = function(args, client, opts, cb) {
     opts = {};
   }
 
-  var filename = args.file || process.env['WALLET_FILE'] || process.env['HOME'] + '/.wallet.dat';
+  var filename = args.file || process.env['WALLET_FILE'] || process.env['HOME'] + '/.alohacore-wallet.dat';
 
   var storage = new FileStorage({
     filename: filename,
