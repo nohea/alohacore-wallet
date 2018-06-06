@@ -9,11 +9,15 @@ program
 
 var args = program.args;
 
+var unit = args[0] || 'bit';
+
 utils.getClient(program, {
   mustExist: true
 }, function(client) {
   client.getBalance({}, function(err, x) {
     utils.die(err);
-    console.log('* Wallet balance %s (Locked %s)', utils.renderAmount(x.totalAmount), utils.renderAmount(x.lockedAmount));
+
+    console.log("wallet-balance: x: " + JSON.stringify(x));
+    console.log('* Wallet balance %s (Locked %s)', utils.renderAmount(x.totalAmount, unit), utils.renderAmount(x.lockedAmount, unit));
   });
 });

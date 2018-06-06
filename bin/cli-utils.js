@@ -219,11 +219,11 @@ Utils.findOneTxProposal = function(txps, id) {
   return matches[0];
 };
 
-Utils.UNITS = {
-  'btc': 100000000,
-  'bit': 100,
-  'sat': 1,
-};
+//Utils.UNITS = {
+//  'btc': 100000000,
+//  'bit': 100,
+//  'sat': 1,
+//};
 
 Utils.parseAmount = function(text) {
   if (!_.isString(text))
@@ -232,17 +232,18 @@ Utils.parseAmount = function(text) {
   var regex = '^(\\d*(\\.\\d{0,8})?)\\s*(' + _.keys(Utils.UNITS).join('|') + ')?$';
   var match = new RegExp(regex, 'i').exec(text.trim());
 
-  if (!match || match.length === 0) throw new Error('Invalid amount');
+  if (!match || match.length === 0) throw new Error('Invalid amount [units]');
 
   var amount = parseFloat(match[1]);
-  if (!_.isNumber(amount) || _.isNaN(amount)) throw new Error('Invalid amount');
+  if (!_.isNumber(amount) || _.isNaN(amount)) throw new Error('Invalid amount [parse]');
 
   var unit = (match[3] || 'sat').toLowerCase();
-  var rate = Utils.UNITS[unit];
-  if (!rate) throw new Error('Invalid unit')
+  var rate = Utils.UNITS[unit].toSatoshis;
+  if (!rate) throw new Error('Invalid unit [' + unit + ']')
 
+  console.log("amount: %s , rate: %s", amount, rate);
   var amountSat = parseFloat((amount * rate).toPrecision(12));
-  if (amountSat != Math.round(amountSat)) throw new Error('Invalid amount');
+  if (amountSat != Math.round(amountSat)) throw new Error('Invalid amount [parse sat]');
 
   return amountSat;
 };
@@ -269,6 +270,24 @@ Utils.UNITS = {
     toSatoshis: 100,
     maxDecimals: 2,
     minDecimals: 2,
+  },
+  sat: {
+    name: 'sat',
+    toSatoshis: 1,
+    maxDecimals: 0,
+    minDecimals: 0,
+  },
+  ppc: {
+    name: 'ppc',
+    toSatoshis: 100000000,
+    maxDecimals: 8,
+    minDecimals: 8,
+  },
+  alcp: {
+    name: 'alcp',
+    toSatoshis: 100000000,
+    maxDecimals: 8,
+    minDecimals: 8,
   },
 };
 
